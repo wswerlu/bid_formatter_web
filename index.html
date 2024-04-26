@@ -1,0 +1,37 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script language="javascript">
+        function remove_crlf(ref) {
+          let final_string = "";
+          let lines_list = ref.value.split("\n");
+
+          lines_list.filter(item => item != "").forEach(function (item) {
+            try {
+              let string_without_usd = item.replace("USD", "");
+              console.log(string_without_usd)
+              let countries = string_without_usd.match(/[A-Za-z]{2}/g);
+              let price = parseFloat(string_without_usd.match(/(\d(.*\d)?)/g)[0].replace(",", "."));
+
+              countries.forEach( function(item) {
+                if (item.toLowerCase() === "uk") {
+                  item = "gb"
+                }
+
+                final_string += item + ', ' + price + '\n'
+            });
+            } catch(e) {
+              final_string += "Строка '" + item + "' не может быть обработана" + '\n'
+            }
+          });
+
+      ref.value = final_string
+        }
+    </script>
+</head>
+<body>
+<form name="frmremover">
+    <textarea name="txtdata" rows="50" cols="50" onblur="javascript:remove_crlf(this)"></textarea>
+</form>
+</body>
+</html>
